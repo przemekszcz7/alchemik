@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+@theme {
+  --color-forest: #1a3a2a;
+  --color-darkforest: #0f2314;
+  --color-olive: #2d4a1e;
+  --color-accent: #d4a017;
+  --color-mustard: #c8960c;
+  --color-parchment: #f5edd8;
+  --color-parchmentlight: #fdfbfa;
+  --color-brown: #2a1a0a;
+
+  --font-playfair: "Playfair Display", serif;
+  --font-crimson: "Crimson Pro", serif;
+  --font-bebas: "Bebas Neue", sans-serif;
+  
+  --border-width-3: 3px;
+}
