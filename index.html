@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alchemik Browar & Pizzeria — Rybczewice</title>
+  <link rel="icon" type="image/jpeg" href="https://i.ibb.co/Qj1wkpY4/674553398-1338646471467026-3766193212011614883-n.jpg">
+  
+  <!-- Google Fonts: Playfair Display, Crimson Pro, Bebas Neue -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <!-- CSS Entrypoint for Vite / Tailwind Compilation -->
+  <link rel="stylesheet" href="/src/index.css">
+
+  <!-- Tailwind CDN for portable, single-file HTML execution -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest: '#1a3a2a',
+            darkforest: '#0f2314',
+            olive: '#2d4a1e',
+            accent: '#d4a017',
+            mustard: '#c8960c',
+            parchment: '#f5edd8',
+            parchmentlight: '#fdfbfa',
+            brown: '#2a1a0a',
+          },
+          fontFamily: {
+            playfair: ['Playfair Display', 'serif'],
+            crimson: ['Crimson Pro', 'serif'],
+            bebas: ['Bebas Neue', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Paper & Parchment CSS Textures */
+    .bg-parchment-texture {
+      background-color: #f5edd8;
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.45), rgba(42, 26, 10, 0.05)),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+
+    .bg-forest-texture {
+      background-color: #0f2314;
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(26,58,42,0.3) 0%, rgba(15,35,20,0.95) 100%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilterDark'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilterDark)' opacity='0.06'/%3E%3C/svg%3E");
+    }
+
+    /* Keyframes for Staggered Hero text animations */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fadeInUp {
+      animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Clip Path Diagonal Border Utilities */
+    .clip-diagonal-top {
+      clip-path: polygon(0 4vw, 100% 0, 100% 100%, 0 100%);
+    }
+
+    /* Fallback and desktop rules for parallax scrolling */
+    .parallax-bg {
+      background-attachment: scroll;
+    }
+    @media (min-width: 1024px) {
+      .parallax-bg {
+        background-attachment: fixed;
+      }
+    }
+
+    /* Subtle custom dark/gold scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f2314;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #d4a017;
+      border-radius: 5px;
+      border: 2px solid #0f2314;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #c8960c;
+    }
+  </style>
+</head>
+<body class="bg-parchment-texture text-brown font-crimson overflow-x-hidden antialiased">
+
+  <!-- SVG Global Noise Filter for Hero overlay -->
+  <svg class="absolute w-0 h-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="grain">
+        <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="4" result="noise" />
+        <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.18 0" />
+        <feBlend mode="multiply" in="SourceGraphic" in2="noise" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Sticky Header & Navigation -->
+  <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent py-4 px-6 md:px-12">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      
+      <!-- Logo layout -->
+      <a href="#" class="flex flex-col group select-none">
+        <span class="font-playfair font-black text-2xl md:text-3xl tracking-wider text-accent transition-colors duration-300 group-hover:text-mustard">
+          ALCHEMIK
+        </span>
+        <span class="font-bebas text-xs md:text-sm tracking-[0.35em] text-parchment/85 leading-tight -mt-1 group-hover:text-parchment transition-colors duration-300">
+          BROWAR & PIZZERIA
+        </span>
+      </a>
+
+      <!-- Desktop Links -->
+      <nav class="hidden lg:flex items-center space-x-8">
+        <a href="#pizza" class="font-bebas tracking-[0.15em] text-lg text-parchment/90 hover:text-accent transition-colors duration-250">Pizza</a>
+        <a href="#piwo" class="font-bebas tracking-[0.15em] text-lg text-parchment/90 hover:text-accent transition-colors duration-250">Piwo</a>
+        <a href="#nasza-alchemia" class="font-bebas tracking-[0.15em] text-lg text-parchment/90 hover:text-accent transition-colors duration-250 font-medium">O nas</a>
+        <a href="#godziny" class="font-bebas tracking-[0.15em] text-lg text-parchment/90 hover:text-accent transition-colors duration-250">Godziny</a>
+        <a href="#opinie" class="font-bebas tracking-[0.15em] text-lg text-parchment/90 hover:text-accent transition-colors duration-250">Opinie</a>
+        <a href="#kontakt" class="font-bebas tracking-[0.15em] text-lg text-parchment/90 hover:text-accent transition-colors duration-250">Kontakt</a>
+      </nav>
+
+      <!-- Right Action Items (FB Icon and Mobile Trigger) -->
+      <div class="flex items-center space-x-4">
+        <!-- Facebook redirect link -->
+        <a href="https://www.facebook.com/PizzeriaAlchemik" target="_blank" rel="noopener noreferrer" 
+           title="Odwiedź nas na Facebooku"
+           class="bg-[#2d4a1e]/40 hover:bg-[#2d4a1e] p-2.5 rounded-full border border-accent/20 hover:border-accent text-parchment/90 hover:text-accent transition-all duration-300 shadow-md">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+          </svg>
+        </a>
+
+        <!-- Mobile Menu Trigger -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 text-parchment hover:text-accent focus:outline-none" aria-label="Menu">
+          <svg id="menu-icon-hamburger" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="menu-icon-close" class="w-7 h-7 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Responsive Mobile Drawer menu -->
+    <div id="mobile-drawer" class="hidden lg:hidden absolute top-full left-0 w-full bg-darkforest/95 backdrop-blur-md border-b border-forest/30 py-6 px-8 flex flex-col space-y-4 shadow-xl">
+      <a href="#pizza" class="mobile-link font-bebas tracking-widest text-lg text-parchment py-1 hover:text-accent">Pizza</a>
+      <a href="#piwo" class="mobile-link font-bebas tracking-widest text-lg text-parchment py-1 hover:text-accent">Piwo</a>
+      <a href="#nasza-alchemia" class="mobile-link font-bebas tracking-widest text-lg text-parchment py-1 hover:text-accent">O nas</a>
+      <a href="#godziny" class="mobile-link font-bebas tracking-widest text-lg text-parchment py-1 hover:text-accent">Godziny</a>
+      <a href="#opinie" class="mobile-link font-bebas tracking-widest text-lg text-parchment py-1 hover:text-accent">Opinie</a>
+      <a href="#kontakt" class="mobile-link font-bebas tracking-widest text-lg text-parchment py-1 hover:text-accent">Kontakt</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    
+    <!-- Parallax Fixed Background Image -->
+    <div class="absolute inset-0 parallax-bg bg-cover bg-center" style="background-image: url('https://i.ibb.co/Qj1wkpY4/674553398-1338646471467026-3766193212011614883-n.jpg')"></div>
+    
+    <!-- Dark Forest Green Gradient overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0f2314]/90 via-[#0f2314]/75 to-[#0f2314]/93"></div>
+    
+    <!-- SVG Grain visual layer applied behind typography to keep text crisp -->
+    <div class="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay" style="filter: url(#grain); background-color: #1a3a2a;"></div>
+
+    <!-- Content Center -->
+    <div class="relative z-10 text-center px-6 max-w-5xl mx-auto flex flex-col items-center">
+      
+      <!-- Staggered Animated Elements -->
+      <p class="animate-fadeInUp opacity-0 font-bebas tracking-[0.25em] text-[#d4a017] text-lg md:text-2xl mb-4 font-normal" style="animation-delay: 0.2s;">
+        JEDYNE TAKIE MIEJSCE W REGIONIE
+      </p>
+      
+      <h1 class="animate-fadeInUp opacity-0 font-playfair italic font-medium text-4xl sm:text-5xl md:text-7xl lg:text-8xl text-parchment leading-tight md:leading-[1.1] mb-6 max-w-4xl" style="animation-delay: 0.5s;">
+        Prawdziwa włoska pizza.<br>
+        <span class="text-accent italic font-semibold drop-shadow-[0_2px_10px_rgba(212,160,23,0.15)]">Rzemieślnicze piwo.</span>
+      </h1>
+      
+      <p class="animate-fadeInUp opacity-0 font-crimson italic text-parchment/90 text-xl sm:text-2xl md:text-3.5xl mb-12" style="animation-delay: 0.8s;">
+        Rybczewice — tylko soboty i niedziele
+      </p>
+      
+      <div class="animate-fadeInUp opacity-0" style="animation-delay: 1.1s;">
+        <a href="https://www.facebook.com/PizzeriaAlchemik" target="_blank" rel="noopener noreferrer" 
+           class="group inline-flex items-center gap-3 bg-transparent hover:bg-accent text-accent hover:text-darkforest font-bebas tracking-[0.15em] text-lg md:text-xl border-3 border-accent py-4 px-10 rounded-md shadow-[0_0_20px_rgba(212,160,23,0.12)] hover:shadow-[0_0_35px_rgba(212,160,23,0.45)] transition-all duration-300 transform hover:-translate-y-1">
+          <span>Znajdź nas na Facebooku</span>
+          <svg class="w-5 h-5 transform group-hover:translate-x-1.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Scroll Indicator badge -->
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center">
+      <span class="font-bebas text-xs tracking-widest text-[#d4a017] mb-2 opacity-80">PROSZEK W DÓŁ</span>
+      <div class="w-[2px] h-12 bg-gradient-to-b from-[#d4a017] to-transparent animate-pulse"></div>
+    </div>
+  </section>
+
+  <!-- Main Sections Wrapped in Parchment Texture Background -->
+  <main class="relative z-10 bg-parchment-texture">
+
+    <!-- About Section ("Nasza Alchemia") -->
+    <section id="nasza-alchemia" class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        
+        <!-- Left Side: Large Pull Quote playing with negative space -->
+        <div class="lg:col-span-6 relative border-l-4 border-accent pl-8 md:pl-10">
+          <blockquote class="font-playfair italic font-semibold text-3xl md:text-4.5xl text-brown leading-relaxed pr-4">
+            "Jedyne miejsce w regionie, gdzie rzemieślnicze piwo warzone z pasją spotyka się z prawdziwą włoską pizzą."
+          </blockquote>
+          
+          <!-- Alchemy visual divider -->
+          <div class="mt-8 flex items-center space-x-4">
+            <div class="w-16 h-[2px] bg-accent/40"></div>
+            <!-- Vintage Alchemy Flask SVG -->
+            <svg class="w-10 h-10 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 21h14" />
+              <path d="M17 21v-5c0-1.5-1-2.5-2.5-3.5L12 8.5V3h0" />
+              <path d="M7 21v-5c0-1.5 1-2.5 2.5-3.5L12 8.5V3" />
+              <path d="M9 3h6" />
+              <path d="M11 5.5h2" />
+              <circle cx="11.5" cy="18.5" r="1" fill="currentColor" opacity="0.3" />
+              <circle cx="13" cy="15.5" r="0.5" fill="currentColor" />
+              <circle cx="9.5" cy="16.5" r="0.5" fill="currentColor" />
+            </svg>
+            <div class="w-16 h-[2px] bg-accent/40"></div>
+          </div>
+        </div>
+
+        <!-- Right Side: Editorial text grid -->
+        <div class="lg:col-span-6 flex flex-col justify-center">
+          <span class="font-bebas tracking-[0.2em] text-mustard text-lg mb-3 block">RUSTYKALNE RZEMIOSŁO</span>
+          <h2 class="font-playfair text-4xl md:text-5xl font-bold text-brown leading-tight mb-6">
+            Rybczewice, Gdzie Smak Staje Się Alchemią
+          </h2>
+          <div class="space-y-6 text-lg md:text-xl text-brown/85 leading-relaxed">
+            <p>
+              Zapraszamy do Rybczewic, gdzie każdy weekend to małe święto smaku. Nasz browar tworzony jest na rzemieślniczych fundamentach — warzymy nasze piwo partiami, wkładając w to całe serce i cierpliwość alchemika poszukującego złotej formuły na doskonałe orzeźwienie.
+            </p>
+            <p class="font-medium text-brown">
+              Z kolei nasza pizza to hołd dla najlepszych tradycji Neapolu. Każda sztuka wypiekana jest z mąki typu "00" na chrupkim cieście dojrzewającym przez kilkadziesiąt godzin i łączącym się z rzemieślniczym sosem pomidorowym oraz świeżymi składnikami.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Detailed Interactive Grid (Features: Pizza & Piwo Highlights) -->
+    <section class="max-w-7xl mx-auto px-6 md:px-12 pb-24">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+        
+        <!-- Pizza Feature Board -->
+        <div id="pizza" class="bg-parchmentlight border-2 border-[#eae2ca] shadow-amber-900/5 shadow-xl hover:shadow-2xl rounded-2xl p-8 transition-all duration-300 relative overflow-hidden group">
+          <div class="absolute -top-12 -right-12 w-32 h-32 bg-accent/5 rounded-full blur-2xl group-hover:bg-accent/10 transition-all duration-500"></div>
+          
+          <div class="flex items-center space-x-4 mb-6">
+            <div class="bg-accent/10 p-3 rounded-lg border border-accent/25">
+              <!-- Inline Pizza Slice SVG -->
+              <svg class="w-8 h-8 text-mustard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 11l-3 3" />
+                <path d="M19 8.5C18.5 8 16 8 16 8c-1.5-1.5-1.5-3.5-1.5-3.5S11 5 10 6L3 13c-1.5 1.5 1.5 4.5 1.5 4.5S8.5 21 10 19.5l7.5-7.5" />
+                <ellipse cx="9" cy="11" rx="1" ry="1" fill="currentColor" />
+                <ellipse cx="11" cy="15" rx="0.5" ry="0.5" fill="currentColor" />
+                <path d="M15 5.5s.5-.5 1-.5" />
+                <path d="M18.5 9s-.5.5-1 1" />
+              </svg>
+            </div>
+            <h3 class="font-playfair text-2xl md:text-3xl font-bold text-brown">Włoska Dusza</h3>
+          </div>
+          
+          <p class="text-lg text-brown/80 mb-6 leading-relaxed">
+            Nasze ciasto dojrzewa powoli, zyskując niesamowicie lekkie i chrupiące krawędzie. Używamy m.in. włoskiej mozzarelli fior di latte oraz oliwy najwyższej jakości z pierwszego tłoczenia, aby zapewnić najwyższy poziom doznań kulinarnych.
+          </p>
+          <ul class="space-y-3 font-medium text-brown">
+            <li class="flex items-center space-x-3.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+              <span>100% Włoska Mąka Typu 00</span>
+            </li>
+            <li class="flex items-center space-x-3.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+              <span>Długie dojrzewanie ciasta (48h)</span>
+            </li>
+            <li class="flex items-center space-x-3.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+              <span>Piec osiąga ekstremalną temperaturę</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Craft Beer Feature Board -->
+        <div id="piwo" class="bg-parchmentlight border-2 border-[#eae2ca] shadow-amber-900/5 shadow-xl hover:shadow-2xl rounded-2xl p-8 transition-all duration-300 relative overflow-hidden group">
+          <div class="absolute -top-12 -right-12 w-32 h-32 bg-accent/5 rounded-full blur-2xl group-hover:bg-accent/10 transition-all duration-500"></div>
+          
+          <div class="flex items-center space-x-4 mb-6">
+            <div class="bg-accent/10 p-3 rounded-lg border border-accent/25">
+              <!-- Inline Beer Mug SVG -->
+              <svg class="w-8 h-8 text-mustard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 11h2.5c1.38 0 2.5-1.12 2.5-2.5S20.88 6 19.5 6H17" />
+                <path d="M5 21h12c1.1 0 2-.9 2-2V4H3v15c0 1.1.9 2 2 2z" />
+                <path d="M3 8h16" />
+                <path d="M11 11v6" />
+                <path d="M7 11v6" />
+                <path d="M15 11v6" />
+              </svg>
+            </div>
+            <h3 class="font-playfair text-2xl md:text-3xl font-bold text-brown">Rzemieślnicze Piwo</h3>
+          </div>
+          
+          <p class="text-lg text-brown/80 mb-6 leading-relaxed">
+            Browarnia Alchemik warzy piwa o niezwykłej głębi. Od klasycznych czystych lagerów, przez nowofalowe APA/IPA ze świetnymi nutami chmielowymi, aż po bogate ciemne piwa o karmelowym, kremowym posmaku.
+          </p>
+          <ul class="space-y-3 font-medium text-brown">
+            <li class="flex items-center space-x-3.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+              <span>Lokalna woda o idealnym profilu mineralnym</span>
+            </li>
+            <li class="flex items-center space-x-3.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+              <span>Prawdziwy chmiel i słód wysokogatunkowy</span>
+            </li>
+            <li class="flex items-center space-x-3.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+              <span>Niefiltrowane i niepasteryzowane bogactwo drożdży</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Editorial Asymmetric Photo Grid Section -->
+    <section class="py-12 bg-box">
+      <div class="relative py-16 px-6 md:px-12 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-12 md:gap-6 relative">
+          
+          <!-- Image 1: Large (spanning ~2/3 width) with heavy custom corner styles and sepia shift -->
+          <div class="w-full md:w-7/12 relative z-10 group overflow-hidden shadow-2xl rounded-tl-[100px] rounded-br-[15px] border-4 border-[#eae2ca] shadow-amber-900/10">
+            <img src="https://i.ibb.co/Qj1wkpY4/674553398-1338646471467026-3766193212011614883-n.jpg" 
+                 alt="Browar i tradycja warzenia piwa" 
+                 class="w-full h-[350px] md:h-[500px] object-cover filter sepia-[0.35] transition-all duration-700 ease-out group-hover:sepia-0 group-hover:scale-103" />
+            <div class="absolute inset-0 bg-darkforest/20 group-hover:bg-transparent transition-all duration-500"></div>
+            <div class="absolute bottom-6 left-6 bg-darkforest/95 backdrop-blur-md px-6 py-3 border border-accent/20 rounded-md">
+              <p class="font-bebas text-accent tracking-[0.2em] text-sm md:text-base">MIEJSCOWE PIWO ALCHEMIK</p>
+            </div>
+          </div>
+          
+          <!-- Image 2: Smaller, offset, slightly overlapping vertically on desktop -->
+          <div class="w-full md:w-5/12 ml-auto mt-[-40px] md:mt-[150px] relative z-20 group overflow-hidden shadow-2xl rounded-tr-[100px] rounded-bl-[15px] border-4 border-[#eae2ca] shadow-amber-900/15">
+            <img src="https://i.ibb.co/tMhybg4X/679438473-1345145154150491-2094557342979000161-n.jpg" 
+                 alt="Niesamowita chrupka włochata pizza" 
+                 class="w-full h-[280px] md:h-[400px] object-cover filter sepia-[0.35] transition-all duration-700 ease-out group-hover:sepia-0 group-hover:scale-103" />
+            <div class="absolute inset-0 bg-darkforest/20 group-hover:bg-transparent transition-all duration-500"></div>
+            <div class="absolute top-6 right-6 bg-darkforest/95 backdrop-blur-md px-6 py-3 border border-accent/20 rounded-md">
+              <p class="font-bebas text-accent tracking-[0.2em] text-sm md:text-base">PIZZA WYPIEKANA NA ORYGINALNYM SKŁADNIKU</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Hours Section with Diagonal Cut clip-path top edge inside Forest background -->
+    <section id="godziny" class="bg-forest-texture text-parchment py-32 px-6 md:px-12 clip-diagonal-top relative -mt-16 z-30">
+      <div class="max-w-4xl mx-auto text-center flex flex-col items-center">
+        
+        <span class="font-bebas tracking-[0.2em] text-accent text-lg mb-4">ZAPLANUJ SWÓJ WEEKEND</span>
+        <h2 class="font-playfair italic text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-12">
+          Kiedy nas znajdziesz?
+        </h2>
+
+        <!-- Schedule list framed elegantly -->
+        <div class="w-full max-w-2xl bg-darkforest/60 border-2 border-accent/30 rounded-2xl p-8 sm:p-12 shadow-[0_15px_50px_rgba(0,0,0,0.3)] backdrop-blur-md">
+          <div class="space-y-6">
+            
+            <!-- Weekdays -->
+            <div class="flex items-center justify-between py-3 border-b border-forest/50">
+              <span class="font-playfair text-parchment/40 line-through text-lg sm:text-xl">Poniedziałek – Czwartek</span>
+              <span class="font-bebas tracking-wider text-parchment/30 line-through text-lg">ZAMKNIĘTE</span>
+            </div>
+            
+            <!-- Friday -->
+            <div class="flex items-center justify-between py-3 border-b border-forest/50">
+              <span class="font-playfair text-parchment/40 line-through text-lg sm:text-xl">Piątek</span>
+              <span class="font-bebas tracking-wider text-parchment/30 line-through text-lg">ZAMKNIĘTE</span>
+            </div>
+            
+            <!-- Saturday (HIGHLIGHTED) -->
+            <div class="flex items-center justify-between py-4 border-b border-accent/40 bg-accent/5 -mx-4 px-4 sm:-mx-8 sm:px-8 rounded">
+              <div class="flex items-center space-x-3">
+                <span class="w-2.5 h-2.5 rounded-full bg-accent animate-pulse"></span>
+                <span class="font-playfair font-bold text-parchment sm:text-2xl text-xl">Sobota</span>
+              </div>
+              <span class="font-bebas tracking-widest text-accent text-xl bg-accent/20 border border-accent/20 px-4 py-1.5 rounded">14:00 – 22:00</span>
+            </div>
+            
+            <!-- Sunday (HIGHLIGHTED) -->
+            <div class="flex items-center justify-between py-4 bg-accent/5 -mx-4 px-4 sm:-mx-8 sm:px-8 rounded">
+              <div class="flex items-center space-x-3">
+                <span class="w-2.5 h-2.5 rounded-full bg-accent animate-pulse"></span>
+                <span class="font-playfair font-bold text-parchment sm:text-2xl text-xl">Niedziela</span>
+              </div>
+              <span class="font-bebas tracking-widest text-accent text-xl bg-accent/20 border border-accent/20 px-4 py-1.5 rounded">14:00 – 20:00</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Custom Warning note text exactly as requested by user -->
+        <p class="mt-10 font-crimson italic text-parchment/80 text-lg sm:text-xl md:text-2xl max-w-xl leading-relaxed">
+          Odwiedzamy nas tylko w weekendy — warto zaplanować wizytę!
+        </p>
+
+      </div>
+    </section>
+
+    <!-- Reviews Section ("Co mówią goście?") -->
+    <section id="opinie" class="py-24 px-6 md:px-12 max-w-7xl mx-auto overflow-hidden">
+      <div class="text-center mb-16">
+        <span class="font-bebas tracking-[0.2em] text-mustard text-lg block mb-3">WASZE SŁOWA</span>
+        <h2 class="font-playfair text-4xl md:text-5xl font-bold text-brown">Co mówią goście?</h2>
+        <div class="w-24 h-1 bg-accent mx-auto mt-4 rounded"></div>
+      </div>
+
+      <!-- Asymmetrical / Staggered rotated cards layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch pt-6 pb-12 relative">
+        
+        <!-- Card 1: Slightly rotated left -->
+        <div class="bg-parchmentlight border-2 border-dashed border-accent hover:border-solid hover:scale-105 duration-300 transition-all p-8 shadow-lg shadow-amber-900/5 flex flex-col justify-between transform lg:-rotate-2 z-10 rounded-lg">
+          <div>
+            <!-- Large quote icon -->
+            <span class="font-playfair italic leading-[0.5] text-5xl md:text-6xl text-accent select-none block mb-2 font-black">“</span>
+            <p class="font-crimson italic text-brown/95 text-lg sm:text-xl leading-relaxed pr-2">
+              Świetny klimat, duża w tym zasługa przemiłej pani z obsługi. Polecam — Alchemik Rybczewice
+            </p>
+          </div>
+          <div class="flex items-center justify-between border-t border-accent/25 pt-4 mt-6">
+            <span class="font-bebas tracking-wider text-brown text-sm">ALCHEMIK RYBCZEWICE</span>
+            <div class="flex text-accent space-x-1">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Rotated right -->
+        <div class="bg-parchmentlight border-2 border-dashed border-accent hover:border-solid hover:scale-105 duration-300 transition-all p-8 shadow-lg shadow-amber-900/5 flex flex-col justify-between transform lg:rotate-[1.5deg] z-20 rounded-lg">
+          <div>
+            <!-- Large quote icon -->
+            <span class="font-playfair italic leading-[0.5] text-5xl md:text-6xl text-accent select-none block mb-2 font-black">“</span>
+            <p class="font-crimson italic text-brown/95 text-lg sm:text-xl leading-relaxed pr-2">
+              Super miejsce do wyjścia ze znajomymi. Pani Iwonka z obsługi nadaje klimat temu lokalowi. Zaraża optymizmem i pozytywną energią. Widać, że kocha swoją pracę.
+            </p>
+          </div>
+          <div class="flex items-center justify-between border-t border-accent/25 pt-4 mt-6">
+            <span class="font-bebas tracking-wider text-brown text-sm">KLIENTKA IWONA</span>
+            <div class="flex text-accent space-x-1">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Neutral minimal rotation alignment -->
+        <div class="bg-parchmentlight border-2 border-dashed border-accent hover:border-solid hover:scale-105 duration-300 transition-all p-8 shadow-lg shadow-amber-900/5 flex flex-col justify-between transform lg:-rotate-[0.5deg] z-10 rounded-lg">
+          <div>
+            <!-- Large quote icon -->
+            <span class="font-playfair italic leading-[0.5] text-5xl md:text-6xl text-accent select-none block mb-2 font-black">“</span>
+            <p class="font-crimson italic text-brown/95 text-lg sm:text-xl leading-relaxed pr-2">
+              Zawsze odwiedzam gdy mam ochotę zjeść naprawdę pyszną pizzę. 😋
+            </p>
+          </div>
+          <div class="flex items-center justify-between border-t border-accent/25 pt-4 mt-6">
+            <span class="font-bebas tracking-wider text-brown text-sm">PYSZNY WYPIEK</span>
+            <div class="flex text-accent space-x-1">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Call To Action Button redirects reviews -->
+      <div class="text-center pt-4">
+        <a href="https://www.facebook.com/PizzeriaAlchemik/reviews" target="_blank" rel="noopener noreferrer" 
+           class="inline-block bg-accent hover:bg-mustard text-darkforest font-bebas tracking-widest text-lg py-4 px-8 rounded-md transition-all duration-300 transform hover:-translate-y-1 shadow-md hover:shadow-xl font-bold">
+          Zobacz więcej opinii na Facebooku
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Contact & Footer Section (Dark Green Texture) -->
+  <footer id="kontakt" class="bg-forest-texture text-parchment pt-20 pb-12 px-6 md:px-12 relative z-40">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 border-b border-forest/60 pb-16">
+        
+        <!-- About column -->
+        <div class="flex flex-col space-y-4">
+          <span class="font-playfair font-black text-3xl tracking-widest text-accent leading-tight">ALCHEMIK</span>
+          <span class="font-bebas text-sm tracking-[0.3em] text-parchment/60 -mt-2 block">BROWAR & PIZZERIA</span>
+          <p class="text-lg text-parchment/80 leading-relaxed max-w-sm font-light pt-2">
+            Unikalne receptury, zrównoważone rzemiosło i pasja przekazywana w każdym kęsie oraz łyku. Alchemia prawdziwego smaku w sercu Rybczewic.
+          </p>
+        </div>
+
+        <!-- Phone and location contact card -->
+        <div class="flex flex-col space-y-6">
+          <span class="font-bebas tracking-widest text-accent text-lg">KONTAKT</span>
+          
+          <!-- Phone link -->
+          <a href="tel:699852875" class="group flex items-center space-x-4">
+            <div class="bg-forest/50 p-2.5 rounded-full border border-accent/30 group-hover:border-accent group-hover:bg-accent group-hover:text-darkforest text-accent transition-all duration-300 shadow-md">
+              <!-- Phone icon -->
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-xs text-parchment/60 font-bebas tracking-wider uppercase">Zadzwoń do nas</span>
+              <span class="font-playfair font-bold text-2xl group-hover:text-accent transition-colors duration-250">699 852 875</span>
+            </div>
+          </a>
+
+          <!-- Location link -->
+          <div class="flex items-center space-x-4">
+            <div class="bg-forest/50 p-2.5 rounded-full border border-accent/30 text-accent shadow-md">
+              <!-- Location pin icon -->
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-xs text-parchment/60 font-bebas tracking-wider uppercase">Gdzie jesteśmy</span>
+              <span class="font-playfair text-xl font-semibold">Rybczewice, Polska</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Facebook Prominent Callout card -->
+        <div class="flex flex-col space-y-6">
+          <span class="font-bebas tracking-widest text-accent text-lg">DOŁĄCZ DO NAS</span>
+          <p class="text-lg text-parchment/80 leading-relaxed font-light">
+            Śledź nasze najnowsze warki piwne, dowiaduj się o specjalnych pizzowych weekendach i bierz udział w życiu naszej społeczności.
+          </p>
+          <div>
+            <a href="https://www.facebook.com/PizzeriaAlchemik" target="_blank" rel="noopener noreferrer" 
+               class="group inline-flex items-center gap-3 bg-accent hover:bg-mustard text-darkforest font-bebas font-bold tracking-widest text-base py-3.5 px-6 rounded-md hover:shadow-[0_0_20px_rgba(212,160,23,0.35)] transition-all duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
+              </svg>
+              <span>Alchemik na Facebooku</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer bottom copyright exact wording check -->
+      <div class="flex flex-col sm:flex-row items-center justify-between pt-8 text-parchment/50 text-sm">
+        <p class="font-light mb-4 sm:mb-0">
+          © 2025 Alchemik Browar & Pizzeria · Rybczewice
+        </p>
+        <div class="flex space-x-6">
+          <a href="#pizza" class="hover:text-accent transition-colors duration-200">Menu pizzy</a>
+          <a href="#piwo" class="hover:text-accent transition-colors duration-200">Nasze browary</a>
+          <a href="#godziny" class="hover:text-accent transition-colors duration-200">Rezerwacje</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Vanilla JS Engine (Sticky transition, Mob drawer toggle & Smooth anchor click) -->
+  <script>
+    // 5-line vanilla JS to toggle scroll style class on header
+    const header = document.getElementById('main-header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) {
+        header.classList.add('bg-[#0f2314]/95', 'backdrop-blur-md', 'shadow-2xl', 'py-3', 'border-b', 'border-[#d4a017]/15');
+        header.classList.remove('bg-transparent', 'py-4');
+      } else {
+        header.classList.add('bg-transparent', 'py-4');
+        header.classList.remove('bg-[#0f2314]/95', 'backdrop-blur-md', 'shadow-2xl', 'py-3', 'border-b', 'border-[#d4a017]/15');
+      }
+    });
+
+    // Mobile Navigation Drawer actions
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileDrawer = document.getElementById('mobile-drawer');
+    const burgerIcon = document.getElementById('menu-icon-hamburger');
+    const closeIcon = document.getElementById('menu-icon-close');
+
+    mobileBtn.addEventListener('click', () => {
+      const isVisible = !mobileDrawer.classList.contains('hidden');
+      if (isVisible) {
+        mobileDrawer.classList.add('hidden');
+        burgerIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      } else {
+        mobileDrawer.classList.remove('hidden');
+        burgerIcon.classList.add('hidden');
+        closeIcon.classList.remove('hidden');
+      }
+    });
+
+    // Close mobile menu drawer automatically on links clicked
+    const links = document.querySelectorAll('.mobile-link');
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileDrawer.classList.add('hidden');
+        burgerIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      });
+    });
+  </script>
+</body>
+</html>

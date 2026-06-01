@@ -1,0 +1,6 @@
+{
+  "name": "Alchemik Browar & Pizzeria",
+  "description": "Jedyna rzemieślnicza browarnia i pizzeria we włoskim stylu w Rybczewicach. Prawdziwa pizza, rzemieślnicze piwo warzone z pasją.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
