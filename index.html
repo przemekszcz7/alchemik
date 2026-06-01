@@ -14,46 +14,20 @@
   <!-- CSS Entrypoint for Vite / Tailwind Compilation -->
   <link rel="stylesheet" href="/src/index.css">
 
-  <!-- Tailwind CDN for portable, single-file HTML execution -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            forest: '#1a3a2a',
-            darkforest: '#0f2314',
-            olive: '#2d4a1e',
-            accent: '#d4a017',
-            mustard: '#c8960c',
-            parchment: '#f5edd8',
-            parchmentlight: '#fdfbfa',
-            brown: '#2a1a0a',
-          },
-          fontFamily: {
-            playfair: ['Playfair Display', 'serif'],
-            crimson: ['Crimson Pro', 'serif'],
-            bebas: ['Bebas Neue', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
-
   <style>
     /* Custom Paper & Parchment CSS Textures */
     .bg-parchment-texture {
       background-color: #f5edd8;
       background-image: 
         radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.45), rgba(42, 26, 10, 0.05)),
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
     }
 
     .bg-forest-texture {
       background-color: #0f2314;
       background-image: 
         radial-gradient(circle at 50% 50%, rgba(26,58,42,0.3) 0%, rgba(15,35,20,0.95) 100%),
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilterDark'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilterDark)' opacity='0.06'/%3E%3C/svg%3E");
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilterDark'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilterDark)' opacity='0.06'/%3E%3C/svg%3E");
     }
 
     /* Keyframes for Staggered Hero text animations */
@@ -80,6 +54,8 @@
     /* Fallback and desktop rules for parallax scrolling */
     .parallax-bg {
       background-attachment: scroll;
+      will-change: transform;
+      transform: translate3d(0, 0, 0);
     }
     @media (min-width: 1024px) {
       .parallax-bg {
@@ -110,7 +86,7 @@
   <svg class="absolute w-0 h-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <filter id="grain">
-        <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="4" result="noise" />
+        <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="1" result="noise" />
         <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.18 0" />
         <feBlend mode="multiply" in="SourceGraphic" in2="noise" />
       </filter>
@@ -185,7 +161,7 @@
     <div class="absolute inset-0 bg-gradient-to-b from-[#0f2314]/90 via-[#0f2314]/75 to-[#0f2314]/93"></div>
     
     <!-- SVG Grain visual layer applied behind typography to keep text crisp -->
-    <div class="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay" style="filter: url(#grain); background-color: #1a3a2a;"></div>
+    <div class="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay" style="filter: url(#grain); background-color: #1a3a2a; will-change: transform; transform: translate3d(0, 0, 0);"></div>
 
     <!-- Content Center -->
     <div class="relative z-10 text-center px-6 max-w-5xl mx-auto flex flex-col items-center">
@@ -237,20 +213,8 @@
           </blockquote>
           
           <!-- Alchemy visual divider -->
-          <div class="mt-8 flex items-center space-x-4">
-            <div class="w-16 h-[2px] bg-accent/40"></div>
-            <!-- Vintage Alchemy Flask SVG -->
-            <svg class="w-10 h-10 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 21h14" />
-              <path d="M17 21v-5c0-1.5-1-2.5-2.5-3.5L12 8.5V3h0" />
-              <path d="M7 21v-5c0-1.5 1-2.5 2.5-3.5L12 8.5V3" />
-              <path d="M9 3h6" />
-              <path d="M11 5.5h2" />
-              <circle cx="11.5" cy="18.5" r="1" fill="currentColor" opacity="0.3" />
-              <circle cx="13" cy="15.5" r="0.5" fill="currentColor" />
-              <circle cx="9.5" cy="16.5" r="0.5" fill="currentColor" />
-            </svg>
-            <div class="w-16 h-[2px] bg-accent/40"></div>
+          <div class="mt-8 flex items-center">
+            <div class="w-32 h-[2px] bg-accent/40"></div>
           </div>
         </div>
 
@@ -281,18 +245,7 @@
         <div id="pizza" class="bg-parchmentlight border-2 border-[#eae2ca] shadow-amber-900/5 shadow-xl hover:shadow-2xl rounded-2xl p-8 transition-all duration-300 relative overflow-hidden group">
           <div class="absolute -top-12 -right-12 w-32 h-32 bg-accent/5 rounded-full blur-2xl group-hover:bg-accent/10 transition-all duration-500"></div>
           
-          <div class="flex items-center space-x-4 mb-6">
-            <div class="bg-accent/10 p-3 rounded-lg border border-accent/25">
-              <!-- Inline Pizza Slice SVG -->
-              <svg class="w-8 h-8 text-mustard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M15 11l-3 3" />
-                <path d="M19 8.5C18.5 8 16 8 16 8c-1.5-1.5-1.5-3.5-1.5-3.5S11 5 10 6L3 13c-1.5 1.5 1.5 4.5 1.5 4.5S8.5 21 10 19.5l7.5-7.5" />
-                <ellipse cx="9" cy="11" rx="1" ry="1" fill="currentColor" />
-                <ellipse cx="11" cy="15" rx="0.5" ry="0.5" fill="currentColor" />
-                <path d="M15 5.5s.5-.5 1-.5" />
-                <path d="M18.5 9s-.5.5-1 1" />
-              </svg>
-            </div>
+          <div class="mb-6">
             <h3 class="font-playfair text-2xl md:text-3xl font-bold text-brown">Włoska Dusza</h3>
           </div>
           
@@ -319,18 +272,7 @@
         <div id="piwo" class="bg-parchmentlight border-2 border-[#eae2ca] shadow-amber-900/5 shadow-xl hover:shadow-2xl rounded-2xl p-8 transition-all duration-300 relative overflow-hidden group">
           <div class="absolute -top-12 -right-12 w-32 h-32 bg-accent/5 rounded-full blur-2xl group-hover:bg-accent/10 transition-all duration-500"></div>
           
-          <div class="flex items-center space-x-4 mb-6">
-            <div class="bg-accent/10 p-3 rounded-lg border border-accent/25">
-              <!-- Inline Beer Mug SVG -->
-              <svg class="w-8 h-8 text-mustard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M17 11h2.5c1.38 0 2.5-1.12 2.5-2.5S20.88 6 19.5 6H17" />
-                <path d="M5 21h12c1.1 0 2-.9 2-2V4H3v15c0 1.1.9 2 2 2z" />
-                <path d="M3 8h16" />
-                <path d="M11 11v6" />
-                <path d="M7 11v6" />
-                <path d="M15 11v6" />
-              </svg>
-            </div>
+          <div class="mb-6">
             <h3 class="font-playfair text-2xl md:text-3xl font-bold text-brown">Rzemieślnicze Piwo</h3>
           </div>
           
@@ -462,7 +404,7 @@
             </p>
           </div>
           <div class="flex items-center justify-between border-t border-accent/25 pt-4 mt-6">
-            <span class="font-bebas tracking-wider text-brown text-sm">ALCHEMIK RYBCZEWICE</span>
+            <span class="font-bebas tracking-wider text-brown text-sm">ZADOWOLONY KLIENT</span>
             <div class="flex text-accent space-x-1">
               <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
             </div>
@@ -479,7 +421,7 @@
             </p>
           </div>
           <div class="flex items-center justify-between border-t border-accent/25 pt-4 mt-6">
-            <span class="font-bebas tracking-wider text-brown text-sm">KLIENTKA IWONA</span>
+            <span class="font-bebas tracking-wider text-brown text-sm">ZADOWOLONY KLIENT</span>
             <div class="flex text-accent space-x-1">
               <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
             </div>
@@ -496,7 +438,7 @@
             </p>
           </div>
           <div class="flex items-center justify-between border-t border-accent/25 pt-4 mt-6">
-            <span class="font-bebas tracking-wider text-brown text-sm">PYSZNY WYPIEK</span>
+            <span class="font-bebas tracking-wider text-brown text-sm">ZADOWOLONY KLIENT</span>
             <div class="flex text-accent space-x-1">
               <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
             </div>
@@ -587,7 +529,7 @@
       <!-- Footer bottom copyright exact wording check -->
       <div class="flex flex-col sm:flex-row items-center justify-between pt-8 text-parchment/50 text-sm">
         <p class="font-light mb-4 sm:mb-0">
-          © 2025 Alchemik Browar & Pizzeria · Rybczewice
+          © 2026 Alchemik Browar & Pizzeria · Rybczewice
         </p>
         <div class="flex space-x-6">
           <a href="#pizza" class="hover:text-accent transition-colors duration-200">Menu pizzy</a>
@@ -603,15 +545,20 @@
   <script>
     // 5-line vanilla JS to toggle scroll style class on header
     const header = document.getElementById('main-header');
+    let isScrolled = false;
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 40) {
-        header.classList.add('bg-[#0f2314]/95', 'backdrop-blur-md', 'shadow-2xl', 'py-3', 'border-b', 'border-[#d4a017]/15');
-        header.classList.remove('bg-transparent', 'py-4');
-      } else {
-        header.classList.add('bg-transparent', 'py-4');
-        header.classList.remove('bg-[#0f2314]/95', 'backdrop-blur-md', 'shadow-2xl', 'py-3', 'border-b', 'border-[#d4a017]/15');
+      const scrolled = window.scrollY > 40;
+      if (scrolled !== isScrolled) {
+        isScrolled = scrolled;
+        if (isScrolled) {
+          header.classList.add('bg-[#0f2314]/95', 'backdrop-blur-md', 'shadow-2xl', 'py-3', 'border-b', 'border-[#d4a017]/15');
+          header.classList.remove('bg-transparent', 'py-4');
+        } else {
+          header.classList.add('bg-transparent', 'py-4');
+          header.classList.remove('bg-[#0f2314]/95', 'backdrop-blur-md', 'shadow-2xl', 'py-3', 'border-b', 'border-[#d4a017]/15');
+        }
       }
-    });
+    }, { passive: true });
 
     // Mobile Navigation Drawer actions
     const mobileBtn = document.getElementById('mobile-menu-btn');
